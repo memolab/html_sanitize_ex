@@ -28,6 +28,7 @@ defmodule HtmlSanitizeEx.Scrubber.HTML5 do
   Meta.strip_comments()
 
   @valid_schemes ["http", "https", "mailto"]
+  @valid_schemes_img ["http", "https", "data:image"]
 
   Meta.allow_tag_with_uri_attributes("a", ["href"], @valid_schemes)
 
@@ -569,7 +570,7 @@ defmodule HtmlSanitizeEx.Scrubber.HTML5 do
   Meta.allow_tag_with_uri_attributes(
     "img",
     ["src", "lowsrc", "srcset"],
-    @valid_schemes
+    @valid_schemes_img
   )
 
   Meta.allow_tag_with_these_attributes("img", [

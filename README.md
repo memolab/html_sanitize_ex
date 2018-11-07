@@ -1,3 +1,5 @@
+Update: add `valid_schemes_img` with base64 src attr
+-------------------------------
 # HtmlSanitizeEx [![Build Status](https://travis-ci.org/rrrene/html_sanitize_ex.svg)](https://travis-ci.org/rrrene/html_sanitize_ex) [![Deps Status](https://beta.hexfaktor.org/badge/all/github/rrrene/html_sanitize_ex.svg)](https://beta.hexfaktor.org/github/rrrene/html_sanitize_ex) [![Inline docs](http://inch-ci.org/github/rrrene/html_sanitize_ex.svg?branch=master)](http://inch-ci.org/github/rrrene/html_sanitize_ex)
 
 `html_sanitize_ex` provides a fast and straightforward HTML Sanitizer written in Elixir which lets you include HTML authored by third-parties in your web application while protecting against XSS.

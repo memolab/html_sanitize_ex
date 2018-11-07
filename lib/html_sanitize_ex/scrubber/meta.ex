@@ -201,27 +201,29 @@ defmodule HtmlSanitizeEx.Scrubber.Meta do
 
       @http_like_scheme "(?<scheme>.+?)(#{@protocol_separator})//"
       @other_schemes "(?<other_schemes>mailto)(#{@protocol_separator})"
+      @base64_schemes "(?<base64_scheme>data:image)/(png|jpeg|gif);base64,"
 
       @scheme_capture Regex.compile!(
-                        "(#{@http_like_scheme})|(#{@other_schemes})",
+                        "(#{@http_like_scheme})|(#{@other_schemes})|(#{
+                          @base64_schemes
+                        })",
                         "mi"
                       )
 
       def scrub_attribute(unquote(tag_name), {unquote(attr_name), uri}) do
         valid_schema =
-          if uri =~ @protocol_separator_regex do
-            case Regex.named_captures(@scheme_capture, uri) do
-              %{"scheme" => scheme, "other_schemes" => ""} ->
-                scheme in unquote(valid_schemes)
+          case Regex.named_captures(@scheme_capture, uri) do
+            %{"base64_scheme" => scheme, "other_schemes" => "", "scheme" => ""} ->
+              scheme in unquote(valid_schemes)
 
-              %{"other_schemes" => scheme, "scheme" => ""} ->
-                scheme in unquote(valid_schemes)
+            %{"scheme" => scheme, "other_schemes" => ""} ->
+              scheme in unquote(valid_schemes)
 
-              _ ->
-                false
-            end
-          else
-            true
+            %{"other_schemes" => scheme, "scheme" => ""} ->
+              scheme in unquote(valid_schemes)
+
+            _ ->
+              false
           end
 
         if valid_schema, do: {unquote(attr_name), uri}

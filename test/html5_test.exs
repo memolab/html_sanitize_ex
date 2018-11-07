@@ -90,4 +90,20 @@ defmodule HtmlSanitizeExScrubberHTML5Test do
     expected = ~s[alert() <p>Hi</p>]
     assert expected == full_html_sanitize(input)
   end
+
+  test "does not strip img src base64 data attr" do
+    input =
+      ~s(<p>Hi</p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAgAElEQVR4nOy9eZgVx3ku/n599plhGJhh2IdNrEI" />)
+
+    assert input == full_html_sanitize(input)
+  end
+
+  test "strips img invaled src base64 data attr" do
+    input =
+      ~s(<p>Hi</p><img src="data:image/tif;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAgAElEQVR4nOy9eZgVx3ku/n599plhGJhh2IdNrEI" />)
+
+    expected = ~s(<p>Hi</p><img />)
+
+    assert expected == full_html_sanitize(input)
+  end
 end
